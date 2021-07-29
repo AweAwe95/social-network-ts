@@ -1,0 +1,18 @@
+.content {
+    background-color: indianred;
+    width: 1300px;
+    display: flex;
+    justify-content: space-around;
+}
+.friends {
+
+}
+.friend{
+
+}
+.friendsMessages{
+
+}
+.message{
+
+}

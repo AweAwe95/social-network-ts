@@ -2,3 +2,7 @@
     background-color: coral;
     width: 300px;
 }
+
+.activeLink{
+    color: gold;
+}
