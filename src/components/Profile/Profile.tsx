@@ -1,8 +1,13 @@
 import React from "react";
 import p from './Profile.module.css'
 import {MyPosts} from "./MyPosts/MyPosts";
+import {ProfilePageDataTypes} from "../../redux/state";
 
-export function Profile() {
+type ProfilePropsTypes = {
+    profilePageData: ProfilePageDataTypes
+}
+
+export function Profile(props: ProfilePropsTypes) {
     return (
         <div className={p.content}>
             <div>
@@ -10,7 +15,7 @@ export function Profile() {
                      className={p.profilePageImg} alt=""/>
             </div>
             <div>Ava + description</div>
-            <MyPosts/>
+            <MyPosts postsData={props.profilePageData.postsData}/>
         </div>
     )
 }
