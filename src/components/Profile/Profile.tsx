@@ -5,6 +5,7 @@ import {ProfilePageDataTypes} from "../../redux/state";
 
 type ProfilePropsTypes = {
     profilePageData: ProfilePageDataTypes
+    addPost:(newPostMessage: string) => void
 }
 
 export function Profile(props: ProfilePropsTypes) {
@@ -15,7 +16,7 @@ export function Profile(props: ProfilePropsTypes) {
                      className={p.profilePageImg} alt=""/>
             </div>
             <div>Ava + description</div>
-            <MyPosts postsData={props.profilePageData.postsData}/>
+            <MyPosts postsData={props.profilePageData.postsData} addPost={props.addPost}/>
         </div>
     )
 }
