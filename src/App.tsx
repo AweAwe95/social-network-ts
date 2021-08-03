@@ -8,11 +8,12 @@ import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
 import {Messages} from "./components/Messages/Messages";
-import {addPost, StateTypes} from "./redux/state";
+import {StateTypes, updateNewPostText} from "./redux/state";
 
 type AppPropsTypes = {
     state: StateTypes
     addPost:(newPostMessage: string) => void
+    updateNewPostText:(newText: string)=>void
 }
 
 function App(props: AppPropsTypes) {
@@ -22,7 +23,7 @@ function App(props: AppPropsTypes) {
                 <Header/>
                 <Navbar/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/profile'} render={() => <Profile profilePageData={props.state.profilePageData} addPost={props.addPost}/>}/>
+                    <Route path={'/profile'} render={() => <Profile profilePageData={props.state.profilePageData} addPost={props.addPost} updateNewPostText={updateNewPostText}/>}/>
                     <Route path={'/messages'} render={() => <Messages messagesPageData = {props.state.messagesPageData}/>}/>
                     <Route path={'/news'} component={News}/>
                     <Route path={'/music'} component={Music}/>

@@ -1,20 +1,20 @@
-import {rerenderEntireTree} from "../render";
-
+let rerenderEntireTree = (state:StateTypes) => {
+    console.log('state changed')
+}
 
 export type StateTypes = {
     profilePageData: ProfilePageDataTypes
     messagesPageData: MessagesPageDataTypes
 }
-
 export type ProfilePageDataTypes = {
     postsData: PostsDataTypes[]
+    newPostText: string
 }
 export type PostsDataTypes = {
     id: number
     message: string
     likeCounter: number
 }
-
 export type MessagesPageDataTypes = {
     friendsData: FriendsDataTypes[]
     messagesData: MessagesDataTypes[]
@@ -34,7 +34,8 @@ export const state:StateTypes = {
             {id: 1, message: 'Hi', likeCounter: 6},
             {id: 2, message: 'Bye', likeCounter: 7},
             {id: 3, message: 'How old are you?', likeCounter: 10},
-        ]
+        ],
+        newPostText: ''
     },
     messagesPageData: {
         friendsData: [
@@ -54,10 +55,17 @@ export const state:StateTypes = {
         ]
     }
 }
-
-
 export const addPost = (newPostMessage: string) => {
     const newPost = {id: 1, message: newPostMessage, likeCounter: 0}
     state.profilePageData.postsData.push(newPost)
     rerenderEntireTree(state)
+}
+
+export const updateNewPostText = (newText: string) => {
+    state.profilePageData.newPostText = newText
+    rerenderEntireTree(state)
+}
+
+export const subscribe = (observer: any) => {
+    rerenderEntireTree = observer
 }
