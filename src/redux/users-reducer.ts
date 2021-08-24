@@ -1,9 +1,15 @@
 let initialState: UsersPageType = {
-    users: []
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1
 }
 
 type UsersPageType = {
     users: UserType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
 }
 export type UserType = {
     id: number,
@@ -17,7 +23,7 @@ type PhotosType = {
     large: string
 }
 
-type usersAT = followAT | unfollowAT | setUsersAT
+type usersAT = followAT | unfollowAT | setUsersAT | setCurrentPageAT | setTotalUsersCountAT
 type followAT = {
     type: 'FOLLOW'
     userId: number
@@ -30,8 +36,16 @@ type setUsersAT = {
     type: 'SET-USERS'
     users: UserType[]
 }
+type setCurrentPageAT = {
+    type: 'SET-CURRENT-PAGE',
+    currentPage: number
+}
+type setTotalUsersCountAT = {
+    type: 'SET-TOTAL-USERS-COUNT',
+    totalUsersCount: number
+}
 
-export const usersReducer = (state = initialState, action: usersAT):UsersPageType => {
+export const usersReducer = (state = initialState, action: usersAT): UsersPageType => {
     switch (action.type) {
         case 'FOLLOW': {
             const stateCopy = {
@@ -56,7 +70,13 @@ export const usersReducer = (state = initialState, action: usersAT):UsersPageTyp
             return stateCopy
         }
         case 'SET-USERS': {
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users: action.users}
+        }
+        case 'SET-CURRENT-PAGE': {
+            return {...state, currentPage: action.currentPage}
+        }
+        case 'SET-TOTAL-USERS-COUNT': {
+            return {...state, totalUsersCount: action.totalUsersCount}
         }
         default:
             return state
@@ -87,3 +107,16 @@ export const setUsersAC = (users: UserType[]): setUsersAT => {
         }
     )
 }
+export const setCurrentPageAC = (currentPage: number): setCurrentPageAT => {
+    return {
+        type: 'SET-CURRENT-PAGE',
+        currentPage
+    }
+}
+export const setTotalUsersCountAC = (totalUsersCount: number): setTotalUsersCountAT => {
+    return {
+        type: 'SET-TOTAL-USERS-COUNT',
+        totalUsersCount
+    }
+}
+
