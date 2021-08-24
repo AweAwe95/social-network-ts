@@ -1,20 +1,22 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import m from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
-import {PostsDataTypes} from "../../../redux/state";
+import {postType} from "../../../redux/profile-reducer";
 
-type MyPostsPropsTypes = {
-    postsData: PostsDataTypes[]
-    addPost:(newPostMessage: string) => void
-    updateNewPostText:(newText: string)=>void
+type MyPostsType = {
+    postsData: postType[]
     newPostText: string
+    addPost: () => void
+    textAreaHandler: (newPostText: string) => void
 }
 
-export function MyPosts(props: MyPostsPropsTypes) {
-    const postsElements = props.postsData.map(p => <Post message={p.message} likeCounter={p.likeCounter}/>)
-    const TextAreaHandler = (e: React.ChangeEvent<HTMLTextAreaElement>)=>{ props.updateNewPostText(e.currentTarget.value)}
+export function MyPosts(props: MyPostsType) {
+    const postsElements = props.postsData.map(p => <Post key={p.id} message={p.message} likeCounter={p.likeCounter}/>)
+    const TextAreaHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.textAreaHandler(e.currentTarget.value)
+    }
     const addPost = () => {
-        props.addPost(props.newPostText)
+        props.addPost()
     }
 
     return <div>
