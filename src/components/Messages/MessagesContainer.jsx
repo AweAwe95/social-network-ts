@@ -1,21 +1,20 @@
 import {addMessageAC, updateNewMessageTextAC} from "../../redux/messages-reducer";
 import {Messages} from "./Messages";
 import {connect} from "react-redux";
-import {AppDispatchType, AppStateType} from "../../redux/redux-store";
 
 
-let mapStateToProps = (state: AppStateType) => {
+let mapStateToProps = (state) => {
     return {
         messagesPageData: state.messagesPageData
     }
 }
-let mapDispatchToProps = (dispatch: AppDispatchType) => {
+let mapDispatchToProps = (dispatch) => {
     return {
         addMessage:() => {
             dispatch(addMessageAC())
         },
-        textAreaHandler: (newMessage: string) => {
-            dispatch(updateNewMessageTextAC(newMessage))
+        textAreaHandler: (e) => {
+            dispatch(updateNewMessageTextAC(e))
         }
     }
 }

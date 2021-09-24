@@ -1,23 +1,25 @@
-let initialState: profilePageType = {
+let initialState: ProfilePageType = {
     postsData: [
         {id: 1, message: 'Hi', likeCounter: 6},
         {id: 2, message: 'Bye', likeCounter: 7},
         {id: 3, message: 'How old are you?', likeCounter: 10},
     ],
-    newPostText: ''
+    newPostText: '',
+    profile: null
 }
 
-export type profilePageType = {
-    postsData: postType[]
+type ProfilePageType = {
+    postsData: PostDataType[],
     newPostText: string
+    profile: null | any
 }
-export type postType = {
+type PostDataType = {
     id: number
     message: string
     likeCounter: number
 }
 
-type profileAT = addPostAT | updateNewPostTextAT
+type ProfileAT = addPostAT | updateNewPostTextAT | setUserProfileAT
 type addPostAT = {
     type: 'ADD-POST'
 }
@@ -25,26 +27,31 @@ type updateNewPostTextAT = {
     type: 'UPDATE-NEW-POST-TEXT',
     newText: string
 }
+type setUserProfileAT = {
+    type: 'SET-USER-PROFILE',
+    profile: any
+}
 
-export const profileReducer = (state = initialState,action: profileAT): profilePageType =>{
+
+export const profileReducer = (state: ProfilePageType = initialState, action: ProfileAT): ProfilePageType => {
     switch (action.type) {
-        case 'ADD-POST':{
+        case 'ADD-POST': {
             const newPost = {id: 1, message: state.newPostText, likeCounter: 0}
-            const stateCopy = {...state, postsData: [...state.postsData, newPost]}
-            stateCopy.newPostText = ''
-            return stateCopy
+            return {...state, postsData: [...state.postsData, newPost], newPostText: ''}
         }
 
         case 'UPDATE-NEW-POST-TEXT': {
-            const stateCopy = {...state, newPostText: action.newText}
-            return stateCopy
+            return {...state, newPostText: action.newText}
+        }
+        case 'SET-USER-PROFILE': {
+            return {...state, profile: action.profile}
         }
         default:
             return state
     }
 }
 
-export const addPostAC = ():addPostAT => {
+export const addPostAC = (): addPostAT => {
     return (
         {
             type: 'ADD-POST',
@@ -56,6 +63,15 @@ export const updateNewPostTextAC = (newText: string): updateNewPostTextAT => {
         {
             type: 'UPDATE-NEW-POST-TEXT',
             newText
+        }
+    )
+}
+
+export const setUserProfile = (profile: any): setUserProfileAT => {
+    return (
+        {
+            type: 'SET-USER-PROFILE',
+            profile
         }
     )
 }

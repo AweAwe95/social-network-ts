@@ -2,24 +2,26 @@ import {connect} from "react-redux";
 import {
     followAC,
     setCurrentPageAC,
+    setIsFetchingAC,
     setTotalUsersCountAC,
-    setUsersAC,
-    unfollowAC,
-    UserType
+    setUsersAC, toggleIsFollowingProgressAC,
+    unfollowAC, UserType
 } from "../../redux/users-reducer";
 import {UsersAPIComponent} from "./UsersAPIComponent";
-import {AppDispatchType, AppStateType} from "../../redux/redux-store";
+import {AppDispatch, AppRootStateType} from "../../redux/redux-store";
 
 
-let mapStateToProps = (state: AppStateType) => {
+let mapStateToProps = (state: AppRootStateType) => {
     return {
         users: state.usersPageData.users,
         pageSize: state.usersPageData.pageSize,
         totalUsersCount: state.usersPageData.totalUsersCount,
-        currentPage: state.usersPageData.currentPage
+        currentPage: state.usersPageData.currentPage,
+        isFetching: state.usersPageData.isFetching,
+        followingInProgress: state.usersPageData.followingInProgress,
     }
 }
-let mapDispatchToProps = (dispatch: AppDispatchType) => {
+let mapDispatchToProps = (dispatch: AppDispatch) => {
     return {
         follow: (userId: number) => {
             dispatch(followAC(userId))
@@ -35,8 +37,20 @@ let mapDispatchToProps = (dispatch: AppDispatchType) => {
         },
         setTotalUsersCount: (totalUsersCount: number) => {
             dispatch(setTotalUsersCountAC(totalUsersCount))
+        },
+        toggleToFetching: (isFetching: boolean) => {
+            dispatch(setIsFetchingAC(isFetching))
         }
     }
 }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
+export const UsersContainer = connect(mapStateToProps, {
+        follow: followAC,
+        unfollow: unfollowAC,
+        setUsers: setUsersAC,
+        setCurrentPage: setCurrentPageAC,
+        setTotalUsersCount: setTotalUsersCountAC,
+        toggleToFetching: setIsFetchingAC,
+        toggleIsFollowingProgress: toggleIsFollowingProgressAC,
+    }
+)(UsersAPIComponent)

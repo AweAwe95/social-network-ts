@@ -17,17 +17,17 @@ let initialState: messagesPageType = {
     newMessageText: ''
 }
 
-export type messagesPageType = {
-    friendsData: friendType[]
-    messagesData: messageType[]
+type messagesPageType = {
+    friendsData: friendDataType[]
+    messagesData: messageDataType[]
     newMessageText: string
 }
-type friendType = {
-    id: number
+type friendDataType = {
+    id: number,
     name: string
 }
-type messageType = {
-    id: number
+type messageDataType = {
+    id: number,
     message: string
 }
 
@@ -40,17 +40,14 @@ type updateNewMessageTextAT = {
     newText: string
 }
 
-export const messagesReducer = (state = initialState, action: messagesAT): messagesPageType => {
+export const messagesReducer = (state: messagesPageType = initialState, action: messagesAT): messagesPageType => {
     switch (action.type) {
         case 'ADD-MESSAGE': {
             const newMessage = {id: 1, message: state.newMessageText}
-            const stateCopy = {...state, messagesData: [...state.messagesData, newMessage]}
-            stateCopy.newMessageText = ''
-            return stateCopy
+            return {...state, messagesData: [...state.messagesData, newMessage], newMessageText: ''}
         }
         case 'UPDATE-NEW-MESSAGE-TEXT': {
-            const stateCopy = {...state, newMessageText: action.newText}
-            return stateCopy
+            return {...state, newMessageText: action.newText}
         }
         default:
             return state
